@@ -1,4 +1,4 @@
-from page_loader.assets_handler import asset_file_naming
+from page_loader.handlers.assets_handler import asset_file_naming
 
 
 IMAGE_URL = 'ru.hexlet.io/assets/professions/nodejs.png'
