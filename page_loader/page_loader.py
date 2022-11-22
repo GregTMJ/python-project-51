@@ -1,8 +1,7 @@
 import os
 import re
-import requests
 
-from urllib.parse import urlparse
+from page_loader.request_handler import get_content
 
 
 def download(url, file_path=''):
@@ -33,17 +32,3 @@ def renaming_url(url: str) -> str:
     if 'https://' in url:
         url = re.sub(r"https://", '', url)
     return re.sub(r"(\.)|(/)", "-", url)
-
-
-def get_content(url: str) -> str:
-    """
-    download content from url
-    :param url: the given url
-    :return: the request results
-    """
-    response = requests.get(url)
-    response.raise_for_status()
-    return response.text
-
-
-renaming_url('https://ru.hexlet.io/courses')
