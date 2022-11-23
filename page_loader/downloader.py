@@ -1,3 +1,4 @@
+import codecs
 import logging
 import os
 import re
@@ -21,7 +22,7 @@ def download(url, file_path=''):
     html_content = get_html_content(url)
     prettify_html_content, assets = handle_assets(html_content, url,
                                                   html_content_file_path)
-    with open(html_file_path, 'w') as file:
+    with codecs.open(html_file_path, 'w', 'utf-8') as file:
         logging.info("writing into new local html file: "
                      f"{html_file_path}")
         file.write(prettify_html_content)
@@ -43,4 +44,6 @@ def renaming_url(url: str) -> tuple:
     if 'https://' in url:
         url = re.sub(r"https://", '', url)
     common_name: str = re.sub(r"(\.)|(/)", "-", url)
+    if common_name[-1] == '-':
+        return common_name[:-1] + '.html', common_name[:-1] + '_files'
     return common_name + '.html', common_name + '_files'
