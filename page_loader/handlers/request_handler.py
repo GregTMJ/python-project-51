@@ -1,3 +1,4 @@
+import logging
 import requests
 
 
@@ -8,6 +9,7 @@ def get_html_content(url: str) -> str:
     :return: the request results
     """
     response = requests.get(url, stream=True)
+    logging.info(f"downloading from {url}")
     response.raise_for_status()
     return response.text
 
@@ -19,5 +21,6 @@ def get_asset_content(url: str) -> bytes:
     :return: the request results
     """
     response = requests.get(url, stream=True)
+    logging.info(f"downloading from {url}")
     response.raise_for_status()
     return response.content

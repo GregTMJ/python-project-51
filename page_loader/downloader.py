@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 
@@ -21,9 +22,13 @@ def download(url, file_path=''):
     prettify_html_content, assets = handle_assets(html_content, url,
                                                   content_file_path)
     with open(html_file_path, 'w') as file:
+        logging.info("writing into new local html file: "
+                     f"{html_file_path}")
         file.write(prettify_html_content)
     if assets:
         if not os.path.exists(content_file_path):
+            logging.info("Creating new directory for assets: "
+                         f"{content_file_path}")
             os.mkdir(content_file_path)
         download_content(content_file_path, assets)
     return html_file_path
