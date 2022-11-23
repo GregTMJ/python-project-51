@@ -96,9 +96,6 @@ def test_page_download(requests_mock):
     """
     request_content = get_fixture_data(HTML_FILE)
     requests_mock.get(URL, text=request_content)
-    expected_html_path = get_fixture_path(
-        os.path.join('expected', HTML_FILE)
-    )
 
     for asset in ASSETS:
         url_asset = urljoin(URL, asset['url_path'])
