@@ -20,7 +20,7 @@ def download(url, file_path=''):
     html_file_path: str = os.path.join(full_file_path, html_file_name)
     html_content = get_html_content(url)
     prettify_html_content, assets = handle_assets(html_content, url,
-                                                  content_file_path)
+                                                  html_content_file_path)
     with open(html_file_path, 'w') as file:
         logging.info("writing into new local html file: "
                      f"{html_file_path}")
