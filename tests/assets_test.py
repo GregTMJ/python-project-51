@@ -1,8 +1,9 @@
 import codecs
+import os
 
 from page_loader.handlers.assets_handler import handle_assets
 
-HTML_FILE = 'fixtures/ru-hexlet-io-courses.html'
+HTML_FILE = 'ru-hexlet-io-courses.html'
 URL = 'https://ru.hexlet.io/courses'
 PATH = 'ru-hexlet-io-courses_files'
 ASSETS = [
@@ -17,8 +18,14 @@ ASSETS = [
 ]
 
 
+def get_fixture_path(file_name):
+    work_dir = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(work_dir, 'fixtures', file_name)
+
+
 def read(file_path):
-    with codecs.open(file_path, 'r', 'utf-8') as f:
+    html_file = get_fixture_path(file_path)
+    with codecs.open(html_file, 'r', 'utf-8') as f:
         result = f.read()
     return result
 
@@ -30,4 +37,3 @@ def test_assets_handler():
     html_content = read(HTML_FILE)
     _, assets = handle_assets(html_content, URL, PATH)
     assert assets == ASSETS
-
