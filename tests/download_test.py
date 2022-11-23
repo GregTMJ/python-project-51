@@ -13,26 +13,31 @@ FILE_NAMING = ("ru-hexlet-io-courses.html",
                "ru-hexlet-io-courses_files")
 ASSET_DIR = 'ru-hexlet-io-courses_files'
 HTML_FILE = 'ru-hexlet-io-courses.html'
+
+DOWNLOAD_HTML_FILE = "page-loader.hexlet.repl.co.html"
+DOWNLOAD_URL = "https://page-loader.hexlet.repl.co/"
+DOWNLOAD_ASSETS_DIR = "page-loader-hexlet-repl-co_files"
 ASSETS = [
     {
         'format': 'css',
         'url_path': '/assets/application.css',
-        'file_name': 'ru-hexlet-io-assets-application.css',
+        'file_name': 'page-loader-hexlet-repl-co-assets-application.css',
     },
     {
         'format': 'png',
         'url_path': '/assets/professions/nodejs.png',
-        'file_name': 'ru-hexlet-io-assets-professions-nodejs.png',
+        'file_name': 'page-loader-hexlet-repl-co-assets-professions'
+                     '-nodejs.png',
     },
     {
         'format': 'js',
-        'url_path': 'https://ru.hexlet.io/packs/js/runtime.js',
-        'file_name': 'ru-hexlet-io-packs-js-runtime.js',
+        'url_path': '/script.js',
+        'file_name': 'page-loader-hexlet-repl-co-script.js',
     },
     {
         'format': 'html',
         'url_path': '/courses',
-        'file_name': 'ru-hexlet-io-courses.html',
+        'file_name': 'page-loader.hexlet.repl.co.html',
     },
 ]
 
@@ -95,16 +100,18 @@ def test_page_download(requests_mock):
     """
     Testing the page-downloader
     """
-    request_content = get_fixture_data(HTML_FILE)
-    requests_mock.get(URL, text=request_content)
+    request_content = get_fixture_data(DOWNLOAD_HTML_FILE)
+    requests_mock.get(DOWNLOAD_URL, text=request_content)
 
     for asset in ASSETS:
-        url_asset = urljoin(URL, asset['url_path'])
+        url_asset = urljoin(DOWNLOAD_URL, asset['url_path'])
         requests_mock.get(url_asset)
 
     with tempfile.TemporaryDirectory() as tempdir:
         assert not os.listdir(tempdir)
 
-        output = download(URL, tempdir)
-        output_html_path = os.path.join(tempdir, HTML_FILE)
+        output = download(DOWNLOAD_URL, tempdir)
+        output_html_path = os.path.join(tempdir, "page-loader-hexlet-repl-co.html")
         assert output == output_html_path
+        assert len(os.listdir(tempdir)) == 2
+        assert len(os.listdir(os.path.join(tempdir, DOWNLOAD_ASSETS_DIR))) == 4
